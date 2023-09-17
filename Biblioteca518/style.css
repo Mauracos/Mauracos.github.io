@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 20px;
+    margin: 50px auto;
+    max-width: 80%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* Para ocultar el desbordamiento de la tabla */
+}
+
+h1 {
+    text-align: center;
+}
+
+.table-container {
+    overflow-y: auto; /* Hace que el contenido haga scroll vertical */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: lightgray;
+    position: sticky;
+    top: 0;
+}
