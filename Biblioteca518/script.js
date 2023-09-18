@@ -24,6 +24,43 @@ function filtrarTabla() {
     }
 }
 
+function dividirTexto() {
+    const table = document.getElementById('datosTabla');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const dataCells = rows[i].getElementsByTagName('td');
+
+        for (let j = 0; j < dataCells.length; j++) {
+            const cellValue = dataCells[j].textContent || dataCells[j].innerText;
+
+            // Divide el texto en líneas de máximo 14 caracteres
+            const words = cellValue.split(' ');
+            let line = '';
+            let dividedText = '';
+
+            for (const word of words) {
+                if ((line + word).length <= 14) {
+                    line += (line === '' ? '' : ' ') + word;
+                } else {
+                    dividedText += line + '<br>';
+                    line = word;
+                }
+            }
+
+            // Añade la última línea si es necesario
+            if (line.length > 0) {
+                dividedText += line;
+            }
+
+            // Establece el ancho de la celda al doble del ancho actual
+            dataCells[j].style.width = (dataCells[j].offsetWidth * 2) + 'px';
+
+            dataCells[j].innerHTML = dividedText;
+        }
+    }
+}
+
 window.addEventListener('load', () => {
     const table = document.getElementById('datosTabla');
 
@@ -49,49 +86,12 @@ window.addEventListener('load', () => {
             } else {
                 table.innerHTML = '<p>No se pudo cargar la tabla de datos.</p>';
             }
+
+            // Llama a la función para dividir el texto y ajustar el ancho de la columna
+            dividirTexto();
         })
         .catch(error => {
             console.error('Error al obtener los datos:', error);
             table.innerHTML = '<p>Ocurrió un error al obtener los datos.</p>';
         });
-});
-function dividirTexto() {
-    const table = document.getElementById('datosTabla');
-    const rows = table.getElementsByTagName('tr');
-
-    for (let i = 0; i < rows.length; i++) {
-        const dataCells = rows[i].getElementsByTagName('td');
-
-        for (let j = 0; j < dataCells.length; j++) {
-            const cellValue = dataCells[j].textContent || dataCells[j].innerText;
-            
-            // Divide el texto en líneas de máximo 14 caracteres
-            const words = cellValue.split(' ');
-            let line = '';
-            let dividedText = '';
-
-            for (const word of words) {
-                if ((line + word).length <= 14) {
-                    line += (line === '' ? '' : ' ') + word;
-                } else {
-                    dividedText += line + '<br>';
-                    line = word;
-                }
-            }
-
-            // Añade la última línea si es necesario
-            if (line.length > 0) {
-                dividedText += line;
-            }
-
-            dataCells[j].innerHTML = dividedText;
-        }
-    }
-}
-
-window.addEventListener('load', () => {
-    // Tu código existente para cargar los datos y mostrar la tabla
-
-    // Llama a la función para dividir el texto
-    dividirTexto();
 });
