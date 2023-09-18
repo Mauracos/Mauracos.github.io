@@ -55,3 +55,28 @@ window.addEventListener('load', () => {
             table.innerHTML = '<p>Ocurrió un error al obtener los datos.</p>';
         });
 });
+
+function dividirTexto() {
+    const table = document.getElementById('datosTabla');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const dataCells = rows[i].getElementsByTagName('td');
+
+        for (let j = 0; j < dataCells.length; j++) {
+            const cellValue = dataCells[j].textContent || dataCells[j].innerText;
+
+            // Dividir el texto en partes de 14 caracteres
+            const dividedText = cellValue.match(/.{1,14}/g);
+            dataCells[j].innerHTML = dividedText.join('<br>');  // Agregar <br> para dividir en líneas
+        }
+    }
+}
+
+window.addEventListener('load', () => {
+    // Tu código existente para cargar los datos y mostrar la tabla
+
+    // Llama a la función para dividir el texto
+    dividirTexto();
+});
+
