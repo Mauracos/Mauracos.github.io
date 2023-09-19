@@ -10,7 +10,9 @@
 <!-- partial:index.partial.html -->
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<div id="container">
+    <div id="backgroundImage"></div>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
@@ -19,15 +21,22 @@
 <body>
     <div class="container">
         <h1>Biblioteca 518</h1>
+                    <div id="etiquetas">
+    <a href="#" class="etiqueta" onclick="agregarEtiqueta('inicial')">Inicial</a>
+    <a href="#" class="etiqueta" onclick="agregarEtiqueta('primario')">Primario</a>
+    <!-- Agrega más etiquetas según sea necesario -->
+</div>
         <input type="text" id="busqueda" placeholder="Buscar..." onkeyup="filtrarTabla()">
         <div class="table-container">
             <table id="datosTabla">
+              
+
+
+
                 <!-- La primera fila que se mantendrá fija -->
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Edad</th>
+
+                      
+                      
                         <!-- Agrega más encabezados según tu estructura de datos -->
                     </tr>
                 </thead>

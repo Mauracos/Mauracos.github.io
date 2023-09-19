@@ -5,12 +5,52 @@ body {
     font-family: Arial, sans-serif;
 }
 
+#backgroundImage {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.pinimg.com/originals/94/7b/a6/947ba618aa3169b997b6891f18237bf3.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Estilos minimalistas para el campo de búsqueda */
+#busqueda {
+    border: 1px solid #ccc; /* Borde del campo de búsqueda */
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    width: 80%; /* Ancho del campo de búsqueda */
+    margin: 10px auto; /* Margen superior e inferior y centrado */
+    display: block; /* Hacer que el campo sea un bloque para centrarlo */
+    outline: none; /* Quita el contorno al hacer clic */
+}
+
+#busqueda::placeholder {
+    color: #aaa; /* Color del texto de marcador de posición */
+}
+
+/* Ocultar la primera fila (encabezado) de la tabla */
+#datosTabla thead tr {
+    display: none;
+}
+
+/* Establecer un fondo gris para la primera fila */
+#datosTabla tbody tr:first-child {
+    background-color: #f0f0f0; /* Color gris para la primera fila */
+}
+
+
+
+
 .container {
-    padding: 20px;
+    padding: 30px;
     margin: 50px auto;
     max-width: 80%;
-    background-color: white;
-    border-radius: 10px;
+    background-color: hsla(0, 100%, 100%, 0.7);
+    border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     overflow: hidden; /* Para ocultar el desbordamiento de la tabla */
 }
@@ -20,7 +60,7 @@ h1 {
 }
 
 .table-container {
-    overflow-y: auto; /* Hace que el contenido haga scroll vertical */
+    overflow-y: auto; /* Hace que el contenido haga scroll verticalmente */
 }
 
 table {
@@ -30,13 +70,22 @@ table {
 }
 
 th, td {
-    border: 1px solid black;
+    border: 2px solid black;
     padding: 10px;
     text-align: left;
+    word-wrap: break-word; /* Romper palabras que no caben */
+    white-space: normal; /* Distribuir en varias líneas si es necesario */
 }
 
 th {
     background-color: lightgray;
     position: sticky;
     top: 0;
+}
+
+/* Aplicar estilos diferentes para dispositivos con pantalla pequeña (por ejemplo, teléfonos móviles) */
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: auto; /* Hace que el contenido haga scroll horizontal en dispositivos pequeños */
+    }
 }

@@ -40,7 +40,7 @@ function dividirTexto() {
             let dividedText = '';
 
             for (const word of words) {
-                if ((line + word).length <= 14) {
+                if ((line + word).length <= 25) {
                     line += (line === '' ? '' : ' ') + word;
                 } else {
                     dividedText += line + '<br>';
@@ -94,4 +94,43 @@ window.addEventListener('load', () => {
             console.error('Error al obtener los datos:', error);
             table.innerHTML = '<p>Ocurrió un error al obtener los datos.</p>';
         });
+});
+
+
+// Función para agregar etiquetas a la búsqueda
+function agregarEtiqueta(etiqueta) {
+    const busquedaInput = document.getElementById('busqueda');
+    busquedaInput.value = etiqueta;
+    filtrarTabla();
+}
+
+window.addEventListener('load', () => {
+    // Resto del código...
+
+    // Llama a la función para dividir el texto y ajustar el ancho de la columna
+    dividirTexto();
+
+    // Agrega etiquetas de ejemplo
+    const etiquetasContainer = document.getElementById('etiquetas');
+    const etiquetasEjemplo = ['', '', ''];
+    etiquetasEjemplo.forEach(etiqueta => {
+        const etiquetaElement = document.createElement('a');
+        etiquetaElement.href = '#';
+        etiquetaElement.classList.add('etiqueta');
+        etiquetaElement.textContent = etiqueta;
+        etiquetaElement.addEventListener('click', () => agregarEtiqueta(etiqueta));
+        etiquetasContainer.appendChild(etiquetaElement);
+    });
+});
+
+const container = document.getElementById('container');
+const backgroundImage = document.getElementById('backgroundImage');
+
+container.addEventListener('scroll', () => {
+    const scrollValue = container.scrollTop;
+    const backgroundScrollSpeed = 0.3; // Puedes ajustar la velocidad según tu preferencia
+
+    // Calcula la posición de fondo en base al scroll y la velocidad
+    const backgroundPosition = `center ${scrollValue * backgroundScrollSpeed}px`;
+    backgroundImage.style.backgroundPosition = backgroundPosition;
 });
