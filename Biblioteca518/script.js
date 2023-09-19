@@ -134,4 +134,3 @@ container.addEventListener('scroll', () => {
     const backgroundPosition = `center ${scrollValue * backgroundScrollSpeed}px`;
     backgroundImage.style.backgroundPosition = backgroundPosition;
 });
-
