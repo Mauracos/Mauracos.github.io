@@ -159,9 +159,16 @@ function checkEnter(event) {
 
         // Mapea los números ingresados a los nombres de las Netbooks
         var netbookNames = {
-            "1234": "Netbook01",
-            "2345": "Netbook02",
-            "3456": "Netbook03"
+            "CL449974652": "Netbook01",
+            "CL449974666": "Netbook02",
+            "CL449974771": "Netbook03",
+            "CL449974808": "Netbook04",
+            "CL449974737": "Netbook05",
+            "CL449974723": "Netbook06",
+            "CL449974706": "Netbook07",
+            "CL449974670": "Netbook08",
+            "CL449974683": "Netbook09",		
+            "CL449974839": "Netbook10"
             // Agrega más mapeos según sea necesario
         };
 
