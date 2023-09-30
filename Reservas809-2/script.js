@@ -32,7 +32,7 @@ function checkEnter(event) {
         });
 
         // Guarda el dato en Firebase
-        var newMessageRef = database.ref('mensajes').push();
+        var newMessageRef = database.ref('Reservas809').push();
         newMessageRef.set({
             texto: dato,
             timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -44,7 +44,7 @@ function checkEnter(event) {
 }
 
 // Recupera y muestra los datos de Firebase
-var messagesRef = database.ref('mensajes');
+var messagesRef = database.ref('Reservas809')
 messagesRef.orderByChild('timestamp').on('child_added', function(snapshot) {
     var message = snapshot.val();
     var messageDiv = document.createElement("div");
@@ -52,9 +52,7 @@ messagesRef.orderByChild('timestamp').on('child_added', function(snapshot) {
     messageDiv.innerHTML = '<div class="text">' + message.texto + '</div>' +
                             '<div class="timestamp">' + formatTimestamp(message.timestamp) + '</div>';
     
-    // Inserta los mensajes al principio de la lista
-    var messagesContainer = document.getElementById("messages");
-    messagesContainer.insertBefore(messageDiv, messagesContainer.firstChild);
+   
 });
 
 function formatTimestamp(timestamp) {
@@ -82,7 +80,7 @@ function clearMessages() {
     }
 
     // Elimina todos los datos de Firebase
-    var messagesRef = database.ref('mensajes');
+    var messagesRef = database.ref('Reservas');
     messagesRef.remove();
 }
 
@@ -151,3 +149,115 @@ function exportToExcel() {
 
     XLSX.writeFile(wb, fileName);
 }
+
+function checkEnter(event) {
+    if (event.key === "Enter") {
+        // Captura el texto ingresado
+        var dato = document.getElementById("datoInput").value;
+
+        // Mapea los números ingresados a los nombres de las Netbooks
+        var netbookNames = {
+            "CL449974652": "Netbook01",
+            "CL449974666": "Netbook02",
+            "CL449974771": "Netbook03",
+            "CL449974808": "Netbook04",
+            "CL449974737": "Netbook05",
+            "CL449974723": "Netbook06",
+            "CL449974706": "Netbook07",
+            "CL449974670": "Netbook08",
+            "CL449974683": "Netbook09",		
+            "CL449974839": "Netbook10"
+            // Agrega más mapeos según sea necesario
+        };
+
+        // Verifica si el dato ingresado tiene una correspondencia en netbookNames
+        var netbookName = netbookNames[dato];
+
+        if (netbookName) {
+            var messageDiv = document.createElement("div");
+            messageDiv.className = "message";
+            messageDiv.innerHTML = '<div class="text">' + netbookName + '</div>' +
+                '<div class="timestamp">' + formatTimestamp(Date.now()) + '</div>';
+
+            // Inserta el mensaje al principio de la lista
+            var messagesContainer = document.getElementById("messages");
+            messagesContainer.insertBefore(messageDiv, messagesContainer.firstChild);
+
+            // Limpiar el campo de entrada
+            document.getElementById("datoInput").value = "";
+        } else {
+            // Si no hay correspondencia, guarda el dato en Firebase
+            var currentDate = new Date();
+            var formattedDate = currentDate.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+            });
+            var formattedTime = currentDate.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            var newMessageRef = database.ref('Reservas809').push();
+            newMessageRef.set({
+                texto: dato,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            // Limpiar el campo de entrada
+            document.getElementById("datoInput").value = "";
+        }
+    }
+}
+
+function formatTimestamp(timestamp) {
+    var date = new Date(timestamp);
+    var hours = date.getHours().toString().padStart(2, '0');
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Sumamos 1 al mes ya que en JavaScript los meses comienzan desde 0
+    var year = date.getFullYear().toString().substring(2); // Obtenemos los últimos dos dígitos del año
+    return hours + ':' + minutes + ' - ' + day + '-' + month + '-' + year;
+}
+function deleteMessage(messageKey) {
+    var messageRef = database.ref('Reservas809').child(messageKey);
+    messageRef.remove()
+        .then(function() {
+            // Elimina el mensaje de la interfaz de usuario
+            var messageDiv = document.querySelector(`[data-key="${messageKey}"]`);
+            if (messageDiv) {
+                messageDiv.remove();
+            }
+        })
+        .catch(function(error) {
+            console.error("Error removing message: ", error);
+        });
+
+// aca esta lo nuevo
+}
+var messagesRef = database.ref('Reservas809');
+messagesRef.orderByChild('timestamp').on('child_added', function(snapshot) {
+    var message = snapshot.val();
+    var messageDiv = document.createElement("div");
+    messageDiv.className = "message";
+    messageDiv.setAttribute("data-key", snapshot.key);
+    
+    var messageTextDiv = document.createElement("div");
+    messageTextDiv.className = "text";
+    messageTextDiv.innerHTML = message.texto;
+    var timestampDiv = document.createElement("div");
+    timestampDiv.className = "timestamp";
+    timestampDiv.innerHTML = formatTimestamp(message.timestamp);
+    timestampDiv.style.textAlign = "right";
+    
+    var deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "X";
+    deleteButton.addEventListener("click", function() {
+        deleteMessage(snapshot.key);
+    });
+    messageDiv.appendChild(messageTextDiv);
+    messageDiv.appendChild(timestampDiv);
+    messageDiv.appendChild(deleteButton);
+    var messagesContainer = document.getElementById("messages");
+    messagesContainer.insertBefore(messageDiv, messagesContainer.firstChild);
+});
