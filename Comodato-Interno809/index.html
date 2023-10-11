@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Comodatos (firmas y campos)</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Comodato Interno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .signature-box {
+            border: 2px solid #000000;
+            width: 80%;
+            max-width: 300px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        #signatureCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            touch-action: none;
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .button {
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .text-input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .text-input {
+            width: 48%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .text-input.amplio {
+            width: 100%;
+        }
+
+        .info-text {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555555;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.ibb.co/VJXbxvN/Comodato-interno-809.jpg" alt="Comodato Interno">
+        </div>
+
+        <div class="signature-box">
+            <label for="signatureCanvas" class="signature-label">Firma del solicitante</label>
+            <canvas id="signatureCanvas"></canvas>
+
+            <div class="button-container">
+                <button class="button" onclick="clearSignature()">Limpiar firma</button>
+            </div>
+        </div>
+
+        <div class="text-input-container">
+    <input type="text" class="text-input amplio" placeholder="Nombre y Apellido" style="width: 60%;">
+    <input type="text" class="text-input" placeholder="DNI" style="width: 40%;">
+</div>
+
+        <div class="text-input-container">
+            <input type="text" class="text-input amplio" placeholder="Recurso solicitado">
+            <label for="fecha-devolucion" class="info-text"> Devuelve</label>
+            <input type="date" class="text-input" id="fecha-devolucion">
+        </div>
+
+        <p class="info-text">
+            Envíe una captura de esta pantalla al Centro de Recursos Tecnológicos ISFD 809, para su posterior impresión y archivado. Whatsapp (2945) 642795
+        </p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('touchstart', handleTouchStart);
+        canvas.addEventListener('touchmove', handleTouchMove);
+        canvas.addEventListener('touchend', handleTouchEnd);
+
+        function handleMouseDown(event) {
+            event.preventDefault();
+            drawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function handleMouseMove(event) {
+            event.preventDefault();
+            if (!drawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function handleMouseUp(event) {
+            event.preventDefault();
+            drawing = false;
+        }
+
+        function handleTouchStart(event) {
+            event.preventDefault();
+            drawing = true;
+            const rect = canvas.getBoundingClientRect();
+            const touch = event.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function handleTouchMove(event) {
+            event.preventDefault();
+            if (!drawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const touch = event.touches[0];
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function handleTouchEnd(event) {
+            event.preventDefault();
+            drawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
