@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Launcher809</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <h1>Launcher 809</h1>
+    <br />
+    <button id="addToHomeScreenBtn">Add to Home Screen</button>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+        }
+
+        document.getElementById('addToHomeScreenBtn').addEventListener('click', () => {
+            // Prompt the user to add the PWA to the home screen
+            promptAddToHomeScreen();
+        });
+
+        // Function to prompt the user to add the PWA to the home screen
+        function promptAddToHomeScreen() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('addToHomeScreenBtn').style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
