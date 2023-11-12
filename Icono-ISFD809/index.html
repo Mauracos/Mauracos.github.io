@@ -1,54 +1,57 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="es">
 <head>
-    <title>Launcher809</title>
-    <link rel="manifest" href="/manifest.json">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launcher 809</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
 
+        #addToHomeScreenButton {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addToHomeScreenButton:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
 <body>
 
-    <h1>Launcher 809</h1>
-    <br />
-    <button id="addToHomeScreenBtn">Add to Home Screen</button>
+    <button id="addToHomeScreenButton" onclick="promptAddToHomeScreen()">Agregar a la pantalla principal</button>
 
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then((registration) => {
-                    console.log('Service Worker registered with scope:', registration.scope);
-                })
-                .catch((error) => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
-
-        document.getElementById('addToHomeScreenBtn').addEventListener('click', () => {
-            // Prompt the user to add the PWA to the home screen
-            promptAddToHomeScreen();
-        });
-
-        // Function to prompt the user to add the PWA to the home screen
         function promptAddToHomeScreen() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the A2HS prompt');
-                    }
-                    deferredPrompt = null;
+            // Verificar si el navegador admite la funcionalidad
+            if ('serviceWorker' in navigator && 'PushManager' in window) {
+                // Mostrar el mensaje para agregar a la pantalla principal
+                navigator.serviceWorker.ready.then(function(registration) {
+                    registration.showNotification('Agrega a la pantalla principal', {
+                        body: 'Puedes acceder rápidamente a esta página desde tu pantalla principal.',
+                        icon: 'icon.png', // Reemplaza con la ruta de tu icono
+                    });
                 });
+            } else {
+                alert("Tu navegador no admite esta funcionalidad.");
             }
         }
-
-        let deferredPrompt;
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('addToHomeScreenBtn').style.display = 'block';
-        });
     </script>
-</body>
 
+</body>
 </html>
