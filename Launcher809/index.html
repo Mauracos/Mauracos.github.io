@@ -1,38 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <title>Grad School HTML5 Template</title>
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/lightbox.css">
-  </head>
-  <body>
-    <section class="section main-banner" id="top" data-section="section1">
-      <video autoplay="autoplay" muted="muted" loop="" id="bg-video">
-        <source src="assets/images/course-video.mp4" type="video/mp4">
-      </video>
-      <div class="video-overlay header-text">
-        <div class="caption">
-          <div class="main-button">
-            <div class="scroll-to-section"><a href="#section2" class="btn btn-primary rounded">Opcion 1</a></div>
-          </div>
-        </div>
-      </div>
-    </section>
-    &nbsp;
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<html>
+
+<head>
+    <title>Mauri809</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <h1>La página de Mauri v6</h1>
+    <br />
+    <button id="addToHomeScreenBtn" style="display: none;">Add to Home Screen</button>
+
     <script>
-      // Tu script JavaScript existente aquí
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+
+            let deferredPrompt;
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('addToHomeScreenBtn').style.display = 'block';
+            });
+
+            document.getElementById('addToHomeScreenBtn').addEventListener('click', () => {
+                // Prompt the user to add the PWA to the home screen
+                promptAddToHomeScreen();
+            });
+
+            // Function to prompt the user to add the PWA to the home screen
+            function promptAddToHomeScreen() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the A2HS prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            }
+        }
     </script>
-  </body>
+</body>
+
 </html>
