@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <title>Mauri809</title>
     <link rel="manifest" href="/manifest.json">
-</head>
-
-<body>
-
-    <h1>La página de Mauri v6</h1>
-    <br />
-    <button id="addToHomeScreenBtn" style="display: none;">Add to Home Screen</button>
-
-    <script>
+  </head>
+  <body>
+    <h1><br>
+    </h1>
+    <div style="text-align: center;"><button name="Opcion 01" autofocus="autofocus">Opcion
+        01</button></div>
+    <p><button name="Opcion 01" autofocus="autofocus"></button><button id="addToHomeScreenBtn"
+        style="display: none;">Add to Home Screen</button>
+      <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
                 .then((registration) => {
@@ -21,8 +21,6 @@
                 .catch((error) => {
                     console.error('Service Worker registration failed:', error);
                 });
-
-            let deferredPrompt;
 
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
@@ -34,6 +32,8 @@
                 // Prompt the user to add the PWA to the home screen
                 promptAddToHomeScreen();
             });
+
+            let deferredPrompt;
 
             // Function to prompt the user to add the PWA to the home screen
             function promptAddToHomeScreen() {
@@ -49,6 +49,6 @@
             }
         }
     </script>
-</body>
-
+    </p>
+  </body>
 </html>

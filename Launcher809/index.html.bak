@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mauri809</title>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+
+    <h1>La página de Mauri v6</h1>
+    <br />
+    <button id="addToHomeScreenBtn" style="display: none;">Add to Home Screen</button>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('addToHomeScreenBtn').style.display = 'block';
+            });
+
+            document.getElementById('addToHomeScreenBtn').addEventListener('click', () => {
+                // Prompt the user to add the PWA to the home screen
+                promptAddToHomeScreen();
+            });
+
+            let deferredPrompt;
+
+            // Function to prompt the user to add the PWA to the home screen
+            function promptAddToHomeScreen() {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the A2HS prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
